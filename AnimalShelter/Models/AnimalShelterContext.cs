@@ -12,8 +12,12 @@ namespace AnimalShelter.Models
         {
             builder.Entity<Animal>()
             .HasData(
-                new Animal
-            )
+                new Animal { AnimalId = 1, Name = "Leonitus", Age = 4, Type = "Kangaroo" }
+                new Animal { AnimalId = 2, Name = "Rudy", Age = 21, Type = "Monitor Lizard" }
+                new Animal { AnimalId = 3, Name = "Ethan", Age = 6, Type = "Billy Goat" }
+                new Animal { AnimalId = 4, Name = "Samantha", Age = 1, Type = "Manatee" }
+                new Animal { AnimalId = 5, Name = "Stevent", Age = 8, Type = "Starfish" }
+            );
         }
     }
 }
