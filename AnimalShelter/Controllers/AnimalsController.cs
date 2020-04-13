@@ -1,7 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
-using System.Globalization;
-using AnimalShelter.Models;
+﻿using AnimalShelter.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
@@ -11,6 +8,7 @@ namespace AnimalShelter.Controllers
 {
   [Route("api/[controller]")]
   [ApiController]
+ 
   public class AnimalsController : ControllerBase
   {
     private AnimalShelterContext _db;
@@ -20,10 +18,21 @@ namespace AnimalShelter.Controllers
       _db = db;
     }
 
-    [HttpGet]
-    public ActionResult<IEnumerable<Animal>> Get()
+   [HttpGet]
+    public ActionResult<IEnumerable<Animal>> Get(string name, int age, string type)
     {
-      return _db.Animals.ToList();
+      var query = _db.Animals.AsQueryable();
+
+      if (name != null)
+      {
+        query = query.Where(entry => entry.Name == name);
+      }
+      if (type != null)
+      {
+        query = query.Where(entry => entry.Type == type);
+      }
+
+      return query.ToList();
     }
 
     [HttpGet("{id}")]
