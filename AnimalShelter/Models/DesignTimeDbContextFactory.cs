@@ -1,6 +1,6 @@
+using System.IO;
 using Microsoft.Extensions.Configuration;
 using Microsoft.EntityFrameworkCore;
-using System.IO;
 using Microsoft.EntityFrameworkCore.Design;
 
 namespace AnimalShelter.Models
