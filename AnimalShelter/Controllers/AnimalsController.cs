@@ -18,6 +18,14 @@ namespace AnimalShelter.Controllers
       _db = db;
     }
 
+    [EnableCors] 
+    [HttpGet("{id}")]
+    public ActionResult<Animal> Get(int id)
+    {
+       return _db.Animals.FirstOrDefault(entry => entry.AnimalId == id);
+      
+    }
+
    [HttpGet]
     public ActionResult<IEnumerable<Animal>> Get(string name, int age, string type)
     {
@@ -35,12 +43,6 @@ namespace AnimalShelter.Controllers
       return query.ToList();
     }
 
-    [HttpGet("{id}")]
-    public ActionResult<Animal> Get(int id)
-    {
-       return _db.Animals.FirstOrDefault(entry => entry.AnimalId == id);
-      
-    }
 
     [HttpPost]
     public void Post([FromBody] Animal animal)

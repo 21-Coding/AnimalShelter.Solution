@@ -15,6 +15,8 @@ namespace AnimalShelter
         {
             Configuration = configuration;
         }
+        readonly string MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
+
 
         public IConfiguration Configuration { get; }
 
@@ -29,7 +31,15 @@ namespace AnimalShelter
             services.AddDbContext<AnimalShelterContext>(opt =>
             opt.UseMySql(Configuration.GetConnectionString("DefaultConnection")));
 
-            
+            services.AddCors(options =>
+            {
+                options.AddPolicy(MyAllowSpecificOrigins,
+                builder =>
+                {
+                    builder.WithOrigins("http://example.com",
+                                        "http://www.contoso.com");
+                });
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
