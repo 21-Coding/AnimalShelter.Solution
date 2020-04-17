@@ -38,33 +38,34 @@ namespace AnimalShelter.Controllers
     [HttpGet("{id}")]
     public ActionResult<Animal> Get(int id)
     {
-      Animal myAnimal = _db.Animals.FirstOrDefault(entry => entry.AnimalId == id);
-      return myAnimal;
+       return _db.Animals.FirstOrDefault(entry => entry.AnimalId == id);
+      
     }
 
     [HttpPost]
-    public ActionResult Post([FromBody] Animal animal)
+    public void Post([FromBody] Animal animal)
     {
       _db.Animals.Add(animal);
       _db.SaveChanges();
-      return Ok($"{animal.Name} has been added to our overall database.");
+    
     }
 
     [HttpPut("{id}")]
     public void Put(int id, [FromBody] Animal animal)
     {
+      animal.AnimalId = id;
       _db.Entry(animal).State = EntityState.Modified;
       _db.SaveChanges();
 
     }
 
     [HttpDelete("{id}")]
-    public ActionResult Delete(int id)
+    public void Delete(int id)
     {
-      Animal thisAnimal = _db.Animals.FirstOrDefault(animal => animal.AnimalId == id);
+      var thisAnimal = _db.Animals.FirstOrDefault(animal => animal.AnimalId == id);
       _db.Animals.Remove(thisAnimal);
       _db.SaveChanges();
-      return Ok($"{thisAnimal.Name} has now been deleted");
+     
     }
   }
 }
