@@ -62,7 +62,7 @@ namespace AnimalShelter.Controllers
     [HttpDelete("{id}")]
     public void Delete(int id)
     {
-      var thisAnimal = _db.Animals.FirstOrDefault(animal => animal.AnimalId == id);
+      var thisAnimal = _db.Animals.FirstOrDefault(entry => entry.AnimalId == id);
       _db.Animals.Remove(thisAnimal);
       _db.SaveChanges();
      
