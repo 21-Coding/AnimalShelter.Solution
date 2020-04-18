@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web.Http.Cors;
+
 
 namespace AnimalShelter.Controllers
 {
@@ -19,7 +19,7 @@ namespace AnimalShelter.Controllers
       _db = db;
     }
 
-    // [EnableCors("Policy1")]
+   
     [HttpGet("{id}")]
     public ActionResult<Animal> Get(int id)
     {
