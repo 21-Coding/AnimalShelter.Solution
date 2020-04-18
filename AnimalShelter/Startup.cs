@@ -6,6 +6,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
+using System;
+using System.Reflection;
+using System.IO;
 
 
 namespace AnimalShelter
@@ -34,7 +37,26 @@ namespace AnimalShelter
             // Register the Swagger generator, defining 1 or more Swagger documents
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "My API", Version = "v1" });
+                 c.SwaggerDoc("v1", new OpenApiInfo
+                {
+                    Version = "v1",
+                    Title = "Animal Shelter API",
+                    Description = "An animal tracking database API.",
+                    TermsOfService = new Uri("https://example.com/terms"),
+                    Contact = new OpenApiContact
+                    {
+                        Name = "Dominique Youmans",
+                        Email = string.Empty,
+                        Url = new Uri("linkedin.com/in/ddy-connect"),
+                    },
+                    License = new OpenApiLicense
+                    {
+                        Name = "Use under LICX",
+                        Url = new Uri("https://example.com/license"),
+                    }
+                });
+
+
             });
         
         }
@@ -50,6 +72,7 @@ namespace AnimalShelter
             app.UseSwaggerUI(c =>
             {
                  c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
+                 c.RoutePrefix = string.Empty;
             });
 
             if (env.IsDevelopment())
