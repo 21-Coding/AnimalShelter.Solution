@@ -5,10 +5,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.OpenApi.Models;
-using System;
-using System.Reflection;
-using System.IO;
 
 
 namespace AnimalShelter
@@ -19,6 +15,7 @@ namespace AnimalShelter
         {
             Configuration = configuration;
         }
+        readonly string MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
 
 
         public IConfiguration Configuration { get; }
@@ -34,47 +31,20 @@ namespace AnimalShelter
             services.AddDbContext<AnimalShelterContext>(opt =>
             opt.UseMySql(Configuration.GetConnectionString("DefaultConnection")));
 
-            // Register the Swagger generator, defining 1 or more Swagger documents
-            services.AddSwaggerGen(c =>
+            services.AddCors(options =>
             {
-                 c.SwaggerDoc("v1", new OpenApiInfo
+                options.AddPolicy(MyAllowSpecificOrigins,
+                builder =>
                 {
-                    Version = "v1",
-                    Title = "Animal Shelter API",
-                    Description = "An animal tracking database API.",
-                    TermsOfService = new Uri("https://example.com/terms"),
-                    Contact = new OpenApiContact
-                    {
-                        Name = "Dominique Youmans",
-                        Email = string.Empty,
-                        Url = new Uri("linkedin.com/in/ddy-connect"),
-                    },
-                    License = new OpenApiLicense
-                    {
-                        Name = "Use under LICX",
-                        Url = new Uri("https://example.com/license"),
-                    }
+                    builder.WithOrigins("http://example.com",
+                                        "http://www.contoso.com");
                 });
-
-
             });
-        
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-            // Enable middleware to serve generated Swagger as a JSON endpoint.
-            app.UseSwagger();
-
-             // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.),
-            // specifying the Swagger JSON endpoint.
-            app.UseSwaggerUI(c =>
-            {
-                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
-                 c.RoutePrefix = string.Empty;
-            });
-
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
